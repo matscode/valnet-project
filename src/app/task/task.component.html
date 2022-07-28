@@ -1,0 +1,36 @@
+<section class="task mb-4">
+  <div class="bg-white p-3 rounded-3 d-flex mb-3 task-card"
+       [ngClass]="{'border border-primary': isSelected}"
+       (click)="onNodeSelect ? onNodeSelect(localTreePath, task) : noop()">
+    <div class="task-left-side">
+      <h5>{{task.name}}</h5>
+      <div class="text-muted small">{{task.description}}</div>
+    </div>
+
+    <div class="task-right-side ms-auto d-flex flex-column align-items-end">
+      <div class="task-actions mb-2">
+        <button type="button" class="btn btn-sm btn-outline-primary">
+          Add task
+        </button>
+
+        <button type="button" class="btn btn-sm btn-outline-danger border-0 ms-2"
+                (click)="onDeleteNode ? onDeleteNode(task.id) : noop()">
+          Delete
+        </button>
+      </div>
+      <div class="task-metadata mt-auto">
+        <span [ngClass]="['badge', statusClasses[task.status]]">{{task.status}}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="ms-3" *ngIf="hasChildren">
+    <app-task *ngFor="let task of task.children"
+              [task]="task"
+              [treePath]="localTreePath"
+              [selectedTreePath]="selectedTreePath"
+              [onNodeSelect]="onNodeSelect"
+              [onDeleteNode]="onDeleteNode"
+    ></app-task>
+  </div>
+</section>
